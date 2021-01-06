@@ -64,7 +64,7 @@ dates = ['01/01/21', '02/01/21', '03/01/21'] # dates of potential exposure
 
 html = requests.get(url).content # get the HTML content
 soup = BeautifulSoup(html, features='lxml') # parse the HTML
-udt = soup.strong.text # find the update time
+udt = [s for s in [x.text for x in soup.find_all('strong')] if '/' in s][0] # find the update time
 df_list = pd.read_html(html) # read the tables from the html content
 dates_dt = [datetime.datetime.strptime(d, '%d/%m/%y') for d in dates] # create datetime objects from dates
 
